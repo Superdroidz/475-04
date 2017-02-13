@@ -7,6 +7,7 @@ after_success: |
     cd "$TRAVIS_BUILD_DIR"
     # This generates a `web` directory containing the website.
     npm run build
+    cd dist
     git init
     git checkout -b gh-pages
     git add .
