@@ -14,6 +14,6 @@ after_success: |
     git -c user.name='travis' -c user.email='travis' commit -m init
     # Make sure to make the output quiet, or else the API token will leak!
     # This works because the API key can replace your password.
-    git push -f https://Superdroidz:$GITHUB_API_KEY@github.com/Superdroidz/475-04 gh-pages &2>/dev/null
+    git push -f https://Superdroidz:$GITHUB_API_KEY@github.com/Superdroidz/475-04 gh-pages
     cd "$TRAVIS_BUILD_DIR"
   fi
