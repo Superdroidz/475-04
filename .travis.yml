@@ -1,19 +1,23 @@
-language: node_js
-node_js:
-  -  "node"
+language: ruby
+rvm:
+- 2.1
 
-after_success: |
-  if [ -n "$GITHUB_API_KEY" ]; then
-    cd "$TRAVIS_BUILD_DIR"
-    # This generates a `web` directory containing the website.
-    npm run build
-    cd dist
-    git init
-    git checkout -b gh-pages
-    git add .
-    git -c user.name='travis' -c user.email='travis' commit -m init
-    # Make sure to make the output quiet, or else the API token will leak!
-    # This works because the API key can replace your password.
-    git push -f https://Superdroidz:$GITHUB_API_KEY@github.com/Superdroidz/475-04 gh-pages
-    cd "$TRAVIS_BUILD_DIR"
-  fi
+install: gem install jekyll html-proofer jekyll-sitemap
+script: scripts/build.sh
+
+# branch whitelist
+branches:
+  only:
+  - gh-pages     # test the gh-pages branch
+  - /pages-(.*)/ # test every branch which starts with "pages-"
+
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # speeds up installation of html-proofer
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: gh-pages
